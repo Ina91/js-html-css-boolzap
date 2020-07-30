@@ -23,7 +23,7 @@
 }
 
 .wrap{
-    height:650px;
+    height:90vh;
     width: 90%;
     top:20px;
     left :0;
@@ -38,7 +38,7 @@
 .left-column{
 width:35%;
 height : 100%;
-background-color: white;
+background-color:  #ededed;
 box-shadow: 0 1px 1px #888888;
 }
 
@@ -47,6 +47,7 @@ box-shadow: 0 1px 1px #888888;
     width:65%;
     height : 100%;
     box-shadow: 0 1px 1px #888888;
+
 }
 
 .header{
@@ -56,7 +57,10 @@ box-shadow: 0 1px 1px #888888;
     display:flex;
     justify-content: space-between;
 }
-img {
+
+
+.header .img img,
+.chat-box img {
     height: 70px;
     width: 70px;
     border-radius: 50%;
@@ -72,16 +76,85 @@ img {
     font-size: 20px;
     color: grey;
     padding:10px;
+    cursor: pointer;
 
+}
+
+.search-box{
+    height:40px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px;
 }
 
 .notifications{
     background-color: #8edafc;
     width:100%;
+    padding:10px;
     display: flex;
+}
+.notifications .img {
+    width: 60px;
+    height: 60px;
+    background-color:white;
+    color : #8edafc;
+    text-align: center;
+    border-radius: 50%;
+}
+.notifications .img i {
+    font-size: 20px;
+    line-height: 60px;
+
+}
+
+.chat-wrap {
+    height:calc(100% - 200px);
+    background-color: #fafafa;
+    overflow-y: scroll;
 }
 .chat-box {
     width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+
+}
+.chat-name{
+    width: calc(100% - 80px);
+
     border-bottom: 1px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 15px 10px;
+
+}
+
+
+.chat-display{
+    height:calc(100% - 140px);
+    overflow-y: scroll;
+}
+.write-box{
+    height: 70px;
+    background-color: #ededed;
+    box-shadow: 0 1px 1px #888888;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.write-box i {
+    font-size: 20px;
+    color: grey;
+}
+#message-input{
+    width: calc(100% - 60px);
+    height : 40px;
+    border-style: none;
+    border-radius: 20px;
+    padding : 0 5px;
 
 }
