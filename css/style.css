@@ -59,13 +59,22 @@ box-shadow: 0 1px 1px #888888;
 }
 
 
-.header .img img,
+.header img,
 .chat-box img {
     height: 70px;
     width: 70px;
     border-radius: 50%;
 }
 
+.left-header {
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+}
+
+.last-entry{
+    padding: 10px;
+}
 .right-header ul{
     list-style: none;
     display: flex;
@@ -86,8 +95,28 @@ box-shadow: 0 1px 1px #888888;
     border-radius: 20px;
     padding: 10px;
     margin: 5px;
-}
 
+    display: flex;
+	align-items: center;
+
+}
+.search-box i{
+bottom: 10px;
+font-size: 20px;
+padding: 5px;
+color: #6d8692;
+}
+.search-box input{
+    flex: 1 0 auto;
+	height: 30px;
+	padding: 0 5px 0 34px;
+	border-radius: 10px;
+    border-style: none;
+}
+input:focus{
+    outline: none;
+    border: 1px solid transparent;
+}
 .notifications{
     background-color: #8edafc;
     width:100%;
@@ -118,7 +147,24 @@ box-shadow: 0 1px 1px #888888;
     background-color: white;
     display: flex;
     align-items: center;
+    cursor: pointer;
+}
 
+.chat-box:hover {
+    background-color: rgba(240, 240, 240, 0.5);
+}
+.chat-time{
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+.chat-menu-side{
+    display: none;
+}
+.chat-box:hover .chat-menu-side{
+    font-size: 20px;
+    display: block;
+    color:grey;
 }
 .chat-name{
     width: calc(100% - 80px);
@@ -131,24 +177,49 @@ box-shadow: 0 1px 1px #888888;
 
 }
 
-
+/* Chat COLONNA DI DESTRA */
 .chat-display{
     height:calc(100% - 140px);
     overflow-y: scroll;
 }
+.chat{
+    flex-direction: column;
+    padding: 10px;
+}
+
+.hide {
+    display: none;
+}
+
+.chat.active{
+    display : flex;
+}
+
+.received{
+    background-color: white;
+    align-self: flex-start;
+
+}
+
+.send{
+    background-color: #dcf8c6;
+    align-self: flex-end;
+}
+
 .write-box{
     height: 70px;
     background-color: #ededed;
     box-shadow: 0 1px 1px #888888;
     display:flex;
-    justify-content: space-between;
+    justify-content:space-between;
     align-items: center;
     padding: 0 10px;
 }
 
-.write-box i {
+.write-box a {
     font-size: 20px;
     color: grey;
+    padding: 10px;
 }
 #message-input{
     width: calc(100% - 60px);
@@ -157,4 +228,29 @@ box-shadow: 0 1px 1px #888888;
     border-radius: 20px;
     padding : 0 5px;
 
+}
+
+/* template */
+.message{
+    min-width: 20%;
+	max-width: 30%;
+	margin: 10px 0;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0px 9px 5px -3px rgba(0, 0, 0, 0.527);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.message-text{
+    word-wrap: break-word;
+}
+.message-time{
+    font-size: 12px;
+	align-self:flex-end;
+
+}
+.template{
+display: none;
 }
