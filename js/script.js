@@ -1,67 +1,88 @@
 $(document).ready(function(){
 
-    // $('.plane-message').click(function(){
-    //     invioMessaggio();
+    //richiamo fz invioMessaggio
+    $('#message-input').keydown(function(){
+        if (event.which == 13 || event.keyCode == 13) {
+            invioMessaggio();
+        }
+    });
+
+    //richiamo fz cerca contatti
+    // $('#search').keydown(function(){
+    //     if (event.which == 13 || event.keyCode == 13) {
+    //         ricercaContatto();
+    //     }
     // });
+    $('#search').keyup(ricercaContatto);
 
-        $('#message-input').keydown(function(){
-            if (event.which == 13 || event.keyCode == 13) {
-                invioMessaggio();
+
+
+    // fz invio sms
+    function invioMessaggio(){
+        var messaggio = $('#message-input').val();
+
+        //  creo clone del template partendo dal sms che si trova dentro al template
+        var clone = $('.template .message').clone();
+
+        clone.addClass('send');
+        // inserimento testo
+        clone.find('.message-text').append(messaggio);
+        var time = data();
+        clone.find('.message-time').append(time);
+        // inserimento nel dom
+        $('.chat.active').append(clone);
+        // risp automatica
+        setTimeout(rispostaAutomatica,2000);
+    }
+
+
+
+    // fz risp rispostaAutomatica
+
+    //array risposte finte
+    var risposta = [
+        'Ciao come stai?',
+        'Sono al lavoro',
+        'Ti va di andare a fare un aperitivo dopo?',
+        'Mi sembra una bellissima idea',
+        'Che triste oggi piove.. ',
+        'Era tanto che non ci sentivamo',
+        'Io sto bene, e tu come stai?',
+        'Oggi vado al mare, vieni con me?'
+    ];
+
+    function rispostaAutomatica(){
+        var frase =numeriRandom(1, risposta.length - 1);
+        var sms = risposta[frase];
+        var clone2 = $('.template .message').clone();
+        clone2.addClass('received');
+        clone2.find('.message-text').append(sms);
+        var time = data();
+        clone2.find('.message-time').append(time);
+        $('.chat.active').append(clone2);
+    }
+
+
+
+    //fz ricerca contatto
+    function ricercaContatto(){
+        var filtro = $('#search').val().toLowerCase();
+        var contatto = $('.chat-box');
+        for (var i = 0; i < contatto.length; i++) {
+            var elemento = contatto.eq(i).find('.chat-name .name').text();
+            if (elemento.toLowerCase().includes(filtro)) {
+                contatto.eq(i).show();
+			} else {
+				contatto.eq(i).hide();
             }
-        });
-
-
-        // fz invio sms
-        function invioMessaggio(){
-            var messaggio = $('#message-input').val();
-
-            //  creo clone del template partendo dal sms che si trova dentro al template
-            var clone = $('.template .message').clone();
-
-            clone.addClass('send');
-            // inserimento testo
-            clone.find('.message-text').append(messaggio);
-            var time = data();
-            clone.find('.message-time').append(time);
-            // inserimento nel dom
-            $('.chat.active').append(clone);
-            // risp automatica
-            setTimeout(rispostaAutomatica,2000);
-
-
-
         }
+    }
 
 
-
-        // fz risp rispostaAutomatica
-
-        //array risposte finte
-        var risposta = [
-            'Ciao come stai?',
-            'Sono al lavoro',
-            'Ti va di andare a fare un aperitivo dopo?',
-            'Mi sembra una bellissima idea',
-            'Che triste oggi piove.. ',
-            'Era tanto che non ci sentivamo',
-            'Io sto bene, e tu come stai?',
-            'Oggi vado al mare, vieni con me?'
-        ];
-
-        function rispostaAutomatica(){
-            var frase =numeriRandom(1, risposta.length - 1);
-            var sms = risposta[frase];
-            var clone2 = $('.template .message').clone();
-            clone2.addClass('received');
-            clone2.find('.message-text').append(sms);
-            var time = data();
-            clone2.find('.message-time').append(time);
-            $('.chat.active').append(clone2);
+    // ***** FUNZIONI GENERALI***** //
 
 
-        }
-    // ***** funzioni ***** //
-
+    //fz random
     function numeriRandom(min,max){
         return Math.floor(Math.random()*(max - min + 1) + min);
     }
