@@ -1,47 +1,53 @@
 $(document).ready(function(){
 
-    //richiamo fz invioMessaggio
-    $('#message-input').keydown(function(){
+
+
+    $('#message-input').keydown(function(){                             //richiamo fz invioMessaggio
         if (event.which == 13 || event.keyCode == 13) {
             invioMessaggio();
         }
     });
 
-    //richiamo fz cerca contatti
-    // $('#search').keydown(function(){
-    //     if (event.which == 13 || event.keyCode == 13) {
-    //         ricercaContatto();
-    //     }
-    // });
-    $('#search').keyup(ricercaContatto);
+    $('#message-input').focus(cambioIcona);
+	$('#message-input').focusout(cambioIcona);
+    $('#plane-message-btn').on('click',invioMessaggio);
+
+    $('#search').keyup(ricercaContatto);                            //richiamo fz. cerca contatto
 
 
+    $('.chat-box').on('click',selezionaContatto);                   //richiamo la fz per selezionare la chat
 
-    // fz invio sms
+
+    //
+    // FZ. INVIO SMS
+
     function invioMessaggio(){
+
         var messaggio = $('#message-input').val();
 
-        //  creo clone del template partendo dal sms che si trova dentro al template
-        var clone = $('.template .message').clone();
-
+        $('#message-input').val('');                             //pulisco input messaggio dopo l'invio
+        var clone = $('.template .message').clone();            //  creo clone del template partendo dal sms che si trova dentro al template
         clone.addClass('send');
-        // inserimento testo
-        clone.find('.message-text').append(messaggio);
-        var time = data();
+        clone.find('.message-text').append(messaggio);          // inserimento testo
+
+        var time = data();                                      //inserimento ora corrente invio sms
         clone.find('.message-time').append(time);
-        // inserimento nel dom
-        $('.chat.active').append(clone);
-        // risp automatica
-        setTimeout(rispostaAutomatica,2000);
+
+        $('.last-entry-time').text('Sta scrivendo...');
+
+        $('.chat-display .chat.active').append(clone);                        // inserimento nel dom
+
+        setTimeout(rispostaAutomatica,2000);                    // dopo un tempo settato parte la risp automatica
     }
 
 
+    //
+    // FZ. RISPOSTE FAKE
 
-    // fz risp rispostaAutomatica
-
-    //array risposte finte
-    var risposta = [
+    var risposta = [                                            //array risposte finte
         'Ciao come stai?',
+        'Ciao',
+        'ok',
         'Sono al lavoro',
         'Ti va di andare a fare un aperitivo dopo?',
         'Mi sembra una bellissima idea',
@@ -51,20 +57,31 @@ $(document).ready(function(){
         'Oggi vado al mare, vieni con me?'
     ];
 
-    function rispostaAutomatica(){
+
+    function rispostaAutomatica(){                              //fz. risposta automatica utilizzando array risposte finte
         var frase =numeriRandom(1, risposta.length - 1);
         var sms = risposta[frase];
         var clone2 = $('.template .message').clone();
-        clone2.addClass('received');
-        clone2.find('.message-text').append(sms);
         var time = data();
+
+        clone2.find('.message-text').append(sms);
+        if (sms.length>20) {
+            var sms = sms.substring(0, 20) + '...';
+        }
+        $('.chat-box.active').find($('.chat-text')).text(sms);
+
+        $('.chat-box.active').find($('.chat-time')).text(time);                             //aggiornamento ora sinistra
+
         clone2.find('.message-time').append(time);
-        $('.chat.active').append(clone2);
+
+        clone2.addClass('received');
+        $('.chat-display .chat.active').append(clone2);
     }
 
 
+    //
+    //FZ. RICERCA CONTATTO
 
-    //fz ricerca contatto
     function ricercaContatto(){
         var filtro = $('#search').val().toLowerCase();
         var contatto = $('.chat-box');
@@ -79,14 +96,48 @@ $(document).ready(function(){
     }
 
 
-    // ***** FUNZIONI GENERALI***** //
+    //
+    //FZ. SELEZIONA CONTATTO
+
+    function selezionaContatto(){
+
+        $('.chat-box').removeClass('active');        //rimozione classe active da tutto
+        // $(this).addClass('active');
+        $('.chat-display .chat').removeClass('active');
+        $(this).addClass('active');
+        //cerco info CONTATTO
+        var lastName = $('.chat-box.active .name').text();
+        var lastImg = $('.chat-box.active .avatar-img').attr('src');
+        var lastTime = $('.chat-box.active .chat-time').text();
+        //gli conpio nell header
+        $('.last-entry .last-entry-name').text(lastName);
+        $('.last-entry-img').attr('src',lastImg);
+        $('.last-entry-time').text(lastTime);
+
+        var chat_index = $(this).index();   //individuo l'indice della chat cliccata
+        $('.chat-display .chat').eq(chat_index).addClass('active') //visualizzo la conversazione giusta
+    }
 
 
-    //fz random
+
+    //
+    //FZ CAMBIA MICROFONO IN AEROPLANO
+    function cambioIcona(){
+        $('.plane,.microfone').toggle(300);
+    }
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// ***** FUNZIONI GENERALI***** //
+
+    //
+    //FZ. RANDOM
     function numeriRandom(min,max){
         return Math.floor(Math.random()*(max - min + 1) + min);
     }
-    // fz ottenere ora nelle chat
+
+    //
+    // FZ. SCRITTURA ORA
     function data(){
     var d = new Date();
     var ora = addZero(d.getHours());
@@ -94,7 +145,8 @@ $(document).ready(function(){
     return ora+ ':'+m;
     }
 
-    // aggiungo lo zero all'ora
+    //
+    // FZ. AFFIUNTA 0 NELL'ORA <10
     function addZero(numero){
     if(numero<10){
         return '0' +numero;

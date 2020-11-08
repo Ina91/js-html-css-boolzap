@@ -153,13 +153,14 @@ input:focus{
 .chat-box:hover {
     background-color: rgba(240, 240, 240, 0.5);
 }
-.chat-time{
+.chat-right{
     display: flex;
-    flex-direction: column;
-    align-content: space-between;
+    /* flex-direction: column; */
+    align-content: space-around;
 }
 .chat-menu-side{
     display: none;
+    padding: 5px;
 }
 .chat-box:hover .chat-menu-side{
     font-size: 20px;
@@ -183,8 +184,11 @@ input:focus{
     overflow-y: scroll;
 }
 .chat{
+    /* display: flex; */
     flex-direction: column;
     padding: 10px;
+    justify-content: space-between;
+    display: none;
 }
 
 .hide {
